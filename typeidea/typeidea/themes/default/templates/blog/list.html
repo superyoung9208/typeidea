@@ -3,10 +3,15 @@
     {% if tag %}
         标签页: {{ tag.name }}
     {% endif %}
-    {% if category %}
+    {% elif category %}
         分类页: {{ category.name }}
+    {% else %}
+    首页
     {% endif %}
 {% endblock %}
+
+
+
 {% block main %}
     <ul>
         {% for post in post_list %}
