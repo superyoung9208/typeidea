@@ -1,3 +1,4 @@
+from django.db.models import Q
 from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404
 
@@ -69,7 +70,7 @@ class PostListView(ListView):
 #     return render(request, 'blog/detail.html', context={'post': post})
 
 
-class PostDetailView(CommonViewMixin,DetailView):
+class PostDetailView(CommonViewMixin, DetailView):
     """博客详情页"""
     queryset = Post.latest_posts()
     template_name = 'blog/detail.html'
@@ -102,7 +103,7 @@ class TagView(IndexView):
 
     def get_context_data(self, **kwargs):
         """获取当前的类型"""
-        context = super(CategoryView, self).get_context_data(**kwargs)
+        context = super(TagView, self).get_context_data(**kwargs)
         tag_id = self.kwargs.get('tag_id')
         tag = get_object_or_404(Tag, pk=tag_id)
         context.update({
@@ -114,4 +115,34 @@ class TagView(IndexView):
         """重写queryset,根据分类过滤"""
         queryset = super(TagView, self).get_queryset()
         tag_id = self.kwargs.get('tag_id')
-        return queryset.filter(category_id=tag_id)
+        return queryset.filter(tag__id=tag_id)
+
+
+class SearchView(IndexView):
+    """搜索页"""
+
+    def get_context_data(self, **kwargs):
+        """获取当前查询的字段"""
+        context = super(SearchView, self).get_context_data(**kwargs)
+        context.update({
+            'keyword': self.request.GET.get('keyword', '')
+        })
+        return context
+
+    def get_queryset(self):
+        """重写queryset,根据分类过滤"""
+        queryset = super(SearchView, self).get_queryset()
+        keyword = self.request.GET.get('keyword', '')
+        if not keyword:
+            return queryset
+        return queryset.filter(Q(title__icontains=keyword) | Q(desc__icontains=keyword))
+
+
+class AuthorView(IndexView):
+    """作者视图"""
+
+    def get_queryset(self):
+        """重写queryset,根据作者分类"""
+        queryset = super(AuthorView, self).get_queryset()
+        author_id = self.kwargs.get('owner_id')
+        return queryset.filter(owner_id=author_id)

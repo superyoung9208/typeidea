@@ -24,8 +24,8 @@
                     </li>
                 {% endfor %}
             </ul>
-            <form class="form-inline my-2 my-lg-0">
-                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+            <form class="form-inline my-2 my-lg-0" action="/search/" method="GET">
+                <input class="form-control mr-sm-2" type="search" name='keyword' placeholder="Search" aria-label="Search" value="{{ keyword }}">
                 <button class="btn btn-outline-success" type="submit">搜索</button>
             </form>
         </div>
@@ -40,18 +40,18 @@
                 {% block main %}
                 {% endblock %}
             </div>
-                <div class="col-xl-3">
-                    {% block sidebar %}
-                        {% for sidebar in sidebars %}
-                            <div class="card sidebar">
-                                <div class="card-body">
-                                    <h4 class="card-title">{{ sidebar.title }}</h4>
-                                    <p>{{ sidebar.content_html }}</p>
-                                </div>
+            <div class="col-xl-3">
+                {% block sidebar %}
+                    {% for sidebar in sidebars %}
+                        <div class="card sidebar">
+                            <div class="card-body">
+                                <h4 class="card-title">{{ sidebar.title }}</h4>
+                                <p>{{ sidebar.content_html }}</p>
                             </div>
-                        {% endfor %}
-                    {% endblock %}
-                </div>
+                        </div>
+                    {% endfor %}
+                {% endblock %}
+            </div>
         </div>
     </div>
     <footer class="footer">
