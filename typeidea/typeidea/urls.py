@@ -16,7 +16,7 @@ Including another URLconf
 from django.conf.urls import url
 from django.contrib import admin
 from blog.views import (IndexView, PostDetailView, TagView, CategoryView, SearchView, AuthorView)
-from config.views import links
+from config.views import LinkListView
 
 urlpatterns = [
     url(r'^$', IndexView.as_view(), name='index'),
@@ -25,7 +25,7 @@ urlpatterns = [
     url(r'^post/(?P<post_id>\d+).html$', PostDetailView.as_view(), name='post-detail'),
     url(r'^search/$', SearchView.as_view(), name='search'),
     url(r'^author/(?P<owner_id>\d+)/$', AuthorView.as_view(), name='author'),
-    url(r'^links/$', links),
+    url(r'^links/$', LinkListView.as_view(), name='links'),
     url(r'^admin/', admin.site.urls),
     # url(r'^super_admin/', admin.site.urls),
 ]
