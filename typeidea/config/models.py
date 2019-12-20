@@ -60,7 +60,7 @@ class Sidebar(models.Model):
 
     @classmethod
     def get_all(cls):
-        """获取全部"""
+        """获取全部侧边栏对象"""
         return cls.objects.filter(status=cls.STATUS_SHOW)
 
     @property

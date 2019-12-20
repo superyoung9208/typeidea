@@ -99,6 +99,7 @@ class Post(models.Model):
 
     @staticmethod
     def get_by_tag(tag_id):
+        """通过标签获取博客文章"""
         try:
             tag = Tag.objects.get(id=tag_id)
         except Tag.DoesNotExist:
@@ -112,6 +113,7 @@ class Post(models.Model):
 
     @staticmethod
     def get_by_category(category_id):
+        """通过类别id获取博客文章"""
         try:
             category = Category.objects.get(id=category_id)
         except Category.DoesNotExist:
@@ -120,14 +122,15 @@ class Post(models.Model):
         else:
             post_list = category.post_set.filter(status=Post.STATUS_NORMAL) \
                 .select_related('owner', 'category')
-
         return post_list, category
 
     @classmethod
     def latest_posts(cls):
+        """获取最后的文章"""
         queryset = cls.objects.filter(status=cls.STATUS_NORMAL)
         return queryset
 
     @classmethod
     def hot_posts(cls):
+        """按浏览量来排序"""
         return cls.objects.filter(status=cls.STATUS_NORMAL).order_by('-pv')

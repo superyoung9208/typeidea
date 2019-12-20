@@ -16,6 +16,7 @@ Including another URLconf
 from django.conf.urls import url
 from django.contrib import admin
 from blog.views import (IndexView, PostDetailView, TagView, CategoryView, SearchView, AuthorView)
+from comment.views import CommentView
 from config.views import LinkListView
 
 urlpatterns = [
@@ -26,6 +27,7 @@ urlpatterns = [
     url(r'^search/$', SearchView.as_view(), name='search'),
     url(r'^author/(?P<owner_id>\d+)/$', AuthorView.as_view(), name='author'),
     url(r'^links/$', LinkListView.as_view(), name='links'),
+    url(r'^comment/$', CommentView.as_view(), name='comment'),
     url(r'^admin/', admin.site.urls),
     # url(r'^super_admin/', admin.site.urls),
 ]
