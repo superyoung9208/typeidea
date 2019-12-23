@@ -15,6 +15,9 @@ Including another URLconf
 """
 from django.conf.urls import url
 from django.contrib import admin
+from django.contrib.sitemaps import views as sitemap_views
+from blog.rss import LastestPostFeed
+from blog.sitemap import PostSitemap
 from blog.views import (IndexView, PostDetailView, TagView, CategoryView, SearchView, AuthorView)
 from comment.views import CommentView
 from config.views import LinkListView
@@ -29,5 +32,8 @@ urlpatterns = [
     url(r'^links/$', LinkListView.as_view(), name='links'),
     url(r'^comment/$', CommentView.as_view(), name='comment'),
     url(r'^admin/', admin.site.urls),
+    url(r'^rss|feed/', LastestPostFeed(), name='rss'),
+    url(r'^sitemap\.xml$', sitemap_views.sitemap, {'sitemaps': {'posts': PostSitemap}})
     # url(r'^super_admin/', admin.site.urls),
 ]
+

@@ -5,6 +5,7 @@ Description:提供表单
 """
 from django import forms
 from .models import Comment
+import mistune
 
 
 class CommentForm(forms.ModelForm):
@@ -43,6 +44,7 @@ class CommentForm(forms.ModelForm):
         content = self.cleaned_data.get('content')
         if len(content) < 10:
             raise forms.ValidationError('内容长度怎么这么短呢!!')
+        content = mistune.markdown(content)  # markdown格式转换为html格式
         return content
 
     class Meta:
