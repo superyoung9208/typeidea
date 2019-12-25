@@ -13,7 +13,7 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 import os
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))  # pycharm中的蓝色目录
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.11/howto/deployment/checklist/
@@ -33,6 +33,12 @@ INSTALLED_APPS = [
     'blog',
     'config',
     'comment',
+    'xadmin',
+    'crispy_forms',
+    'dal',
+    'dal_select2',
+    'ckeditor',
+    'ckeditor_uploader',
 
     'django.contrib.admin',
     'django.contrib.auth',
@@ -126,3 +132,22 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'themes', THEME, 'static')
 ]
+
+XADMIN_TITLE = 'Typeidea 管理后台'
+XADMIN_FOOTER_TITLE = 'power by PeterYoung'
+
+CKEDITOR_CONFIGS = {
+    'default': {
+        'toolbar': 'full',
+        'height': 300,
+        'width': 800,
+        'tabSpaces': 4,
+        'extraPlugins': 'codesnippet',  # 配置代码插件
+    }
+}
+
+MEDIA_URL = "/media/"  # 静态文件url
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')  # 静态文件地址
+CKEDITOR_UPLOAD_PATH = "article_images"
+
+DEFAULT_FILE_STORAGE = 'typeidea.storage.WatermarkStorage'
