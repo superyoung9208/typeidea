@@ -17,15 +17,20 @@ import xadmin
 from django.conf import settings
 from django.conf.urls.static import static
 from django.conf.urls import url, include
-from django.contrib import admin
 from django.contrib.sitemaps import views as sitemap_views
-
+from rest_framework.documentation import include_docs_urls
+from rest_framework.routers import DefaultRouter
+from blog.apis import PostViewSet, CategoryViewSet
 from blog.autocomplete import CategoryAutocomplete, TagAutocomplete
 from blog.rss import LastestPostFeed
 from blog.sitemap import PostSitemap
 from blog.views import (IndexView, PostDetailView, TagView, CategoryView, SearchView, AuthorView)
 from comment.views import CommentView
 from config.views import LinkListView
+
+router = DefaultRouter()
+router.register(r'post', PostViewSet, basename='api-post')
+router.register(r'category', CategoryViewSet, basename='api-category')
 
 urlpatterns = [
                   url(r'^$', IndexView.as_view(), name='index'),
@@ -41,5 +46,9 @@ urlpatterns = [
                   url(r'^sitemap\.xml$', sitemap_views.sitemap, {'sitemaps': {'posts': PostSitemap}}),
                   url(r'^category-autocomplete/$', CategoryAutocomplete.as_view(), name='category-autocomplete'),
                   url(r'^tag-autocomplete/$', TagAutocomplete.as_view(), name='tag-autocomplete'),
-                  url(r'^ckeditor/', include('ckeditor_uploader.urls'))
+                  url(r'^ckeditor/', include('ckeditor_uploader.urls')),
+                  url(r'^api/', include(router.urls)),
+                  url(r'^docs/', include_docs_urls(title='typeidea apis'))
+                  # url(r'^api/post/', post_list, name='post-list'),
+                  # url(r'^api/post/', PostList.as_view(), name='post-list'),
               ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

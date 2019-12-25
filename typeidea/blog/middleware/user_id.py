@@ -5,6 +5,7 @@ TEN_YEARS = 60 * 60 * 24 * 365 * 10
 
 
 class UserIDMiddleware(object):
+    """中间件获取用户cookie"""
     def __init__(self, get_response):
         self.get_response = get_response
 
