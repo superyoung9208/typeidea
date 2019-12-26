@@ -52,3 +52,8 @@ urlpatterns = [
                   # url(r'^api/post/', post_list, name='post-list'),
                   # url(r'^api/post/', PostList.as_view(), name='post-list'),
               ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+if settings.DEBUG:
+    import debug_toolbar
+    debug_url = [url(r'__debug__/', include(debug_toolbar.urls))]
+    urlpatterns += debug_url
