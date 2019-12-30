@@ -1,11 +1,11 @@
 import mistune
 from django.contrib.auth.models import User
+from django.core.cache import cache
 from django.db import models
 from django.utils.functional import cached_property
 
 
 # Create your models here.
-
 
 
 class Category(models.Model):
@@ -141,7 +141,11 @@ class Post(models.Model):
     @classmethod
     def hot_posts(cls):
         """按浏览量来排序"""
-        return cls.objects.filter(status=cls.STATUS_NORMAL).order_by('-pv')
+        result = cache.get('hot_posts')
+        if not result:
+            result = cls.objects.filter(status=cls.STATUS_NORMAL).order_by('-pv')
+            cache.set('hot_posts', result, 10*60)
+        return result
 
     def save(self, *args, **kwargs):
         if self.is_md:
